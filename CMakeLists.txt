@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.6)
 
 set(PROJECT_NAME blueturbo-ss)
-set(PROJECT_VERSION "10.0.2")
+set(PROJECT_VERSION "10.0.3")
 project(blueturbo-ss)
 
 set (CMAKE_CXX_STANDARD 14)
@@ -37,6 +37,8 @@ include_directories(libcork/include)
 include_directories(libipset/include)
 include_directories(libbloom/murmur2)
 include_directories(libbloom)
+include_directories(c-ares)
+include_directories(${CMAKE_BINARY_DIR}/c-ares)
 
 set(LIBCORK_SOURCE
         libcork/src/libcork/cli/commands.c
@@ -98,6 +100,8 @@ set(LIBBLOOM_SOURCE
         )
 add_library(bloom STATIC ${LIBBLOOM_SOURCE})
 target_link_libraries(ipset cork bloom)
+
+add_subdirectory(c-ares)
 
 add_subdirectory(src)
 

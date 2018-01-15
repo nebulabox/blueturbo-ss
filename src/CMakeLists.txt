@@ -90,10 +90,8 @@ find_library(LIBSODIUM libsodium.a)
 find_library(LIBMBEDTLS libmbedtls.a)
 find_library(LIBMBEDCRYPTO libmbedcrypto.a)
 find_library(LIBEV libev.a)
-find_library(LIBUDNS libcares.a)
-if (NOT LIBUDNS)
-    find_library(LIBUDNS libcares_static.a)
-endif ()
+
+set(LIBUDNS ${CMAKE_BINARY_DIR}/c-ares/lib/libcares.a)
 
 list(APPEND DEPS
         m
