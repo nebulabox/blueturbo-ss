@@ -1435,6 +1435,7 @@ accept_cb(EV_P_ ev_io *w, int revents)
 
     char *peer_name = get_peer_name(serverfd);
     if (peer_name != NULL) {
+		/* disable acl and block list
         int in_white_list = 0;
         if (acl) {
             if ((get_acl_mode() == BLACK_LIST && acl_match_host(peer_name) == 1)
@@ -1455,6 +1456,7 @@ accept_cb(EV_P_ ev_io *w, int revents)
             close(serverfd);
             return;
         }
+		*/
     }
 
     int opt = 1;

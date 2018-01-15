@@ -33,17 +33,8 @@
 
 #include <libcork/ds.h>
 
-#ifdef HAVE_PCRE_H
-#include <pcre.h>
-#elif HAVE_PCRE_PCRE_H
-#include <pcre/pcre.h>
-#endif
-
 typedef struct rule {
     char *pattern;
-
-    /* Runtime fields */
-    pcre *pattern_re;
 
     struct cork_dllist_item entries;
 } rule_t;

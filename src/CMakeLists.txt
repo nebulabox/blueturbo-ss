@@ -86,20 +86,20 @@ set(SS_REDIR_SOURCE
         ${SS_PLUGIN_SOURCE}
         )
 
-
 find_library(LIBSODIUM libsodium.a)
 find_library(LIBMBEDTLS libmbedtls.a)
 find_library(LIBMBEDCRYPTO libmbedcrypto.a)
 find_library(LIBEV libev.a)
 find_library(LIBUDNS libcares.a)
-find_library(LIBPCRE libpcre.a)
+if (NOT LIBUDNS)
+    find_library(LIBUDNS libcares_static.a)
+endif ()
 
 list(APPEND DEPS
         m
         bloom
         ${LIBEV}
         ${LIBUDNS}
-        ${LIBPCRE}
         ${LIBSODIUM}
         ${LIBMBEDTLS}
         ${LIBMBEDCRYPTO}
@@ -108,27 +108,32 @@ list(APPEND DEPS
 find_package (Threads)
 
 add_executable(ss-server ${SS_SERVER_SOURCE})
-add_executable(ss-tunnel ${SS_TUNNEL_SOURCE})
-add_executable(ss-manager ${SS_MANAGER_SOURCE})
-add_executable(ss-local ${SS_LOCAL_SOURCE})
-if (WITH_SS_REDIR)
-    add_executable(ss-redir ${SS_REDIR_SOURCE})
-else ()
-    add_executable(ss-redir EXCLUDE_FROM_ALL ${SS_REDIR_SOURCE})
-endif ()
-add_library(shadowsocks-libev STATIC ${LIBSHADOWSOCKS_LIBEV_SOURCE})
-
-
 target_compile_definitions(ss-server PUBLIC -DMODULE_REMOTE)
-target_compile_definitions(ss-tunnel PUBLIC -DMODULE_TUNNEL)
-target_compile_definitions(ss-manager PUBLIC -DMODULE_MANAGER)
-target_compile_definitions(ss-local PUBLIC -DMODULE_LOCAL)
-target_compile_definitions(ss-redir PUBLIC -DMODULE_REDIR)
-target_compile_definitions(shadowsocks-libev PUBLIC -DMODULE_LOCAL)
-
 target_link_libraries(ss-server cork ipset ${DEPS})
-target_link_libraries(ss-tunnel cork ${DEPS})
-target_link_libraries(ss-manager m bloom cork ${LIBEV} ${LIBUDNS})
+
+add_executable(ss-local ${SS_LOCAL_SOURCE})
+target_compile_definitions(ss-local PUBLIC -DMODULE_LOCAL)
 target_link_libraries(ss-local cork ipset ${DEPS})
-target_link_libraries(ss-redir cork ipset ${DEPS})
-target_link_libraries(shadowsocks-libev cork ipset ${DEPS})
+
+
+# add_executable(ss-tunnel ${SS_TUNNEL_SOURCE})
+# add_executable(ss-manager ${SS_MANAGER_SOURCE})
+
+# target_compile_definitions(ss-tunnel PUBLIC -DMODULE_TUNNEL)
+# target_compile_definitions(ss-manager PUBLIC -DMODULE_MANAGER)
+# target_compile_definitions(ss-redir PUBLIC -DMODULE_REDIR)
+# target_compile_definitions(shadowsocks-libev PUBLIC -DMODULE_LOCAL)
+
+# if (WITH_SS_REDIR)
+#     add_executable(ss-redir ${SS_REDIR_SOURCE})
+# else ()
+#     add_executable(ss-redir EXCLUDE_FROM_ALL ${SS_REDIR_SOURCE})
+# endif ()
+# add_library(shadowsocks-libev STATIC ${LIBSHADOWSOCKS_LIBEV_SOURCE})
+
+
+# target_link_libraries(ss-tunnel cork ${DEPS})
+# target_link_libraries(ss-manager m bloom cork ${LIBEV} ${LIBUDNS})
+# target_link_libraries(ss-redir cork ipset ${DEPS})
+# target_link_libraries(shadowsocks-libev cork ipset ${DEPS})
+

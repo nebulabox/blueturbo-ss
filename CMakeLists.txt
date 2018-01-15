@@ -1,21 +1,18 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.6)
 
 set(PROJECT_NAME blueturbo-ss)
-set(PROJECT_VERSION "10.0.1")
+set(PROJECT_VERSION "10.0.2")
 project(blueturbo-ss)
 
 set (CMAKE_CXX_STANDARD 14)
-
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
-
 set(CMAKE_MACOSX_RPATH TRUE)
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
 endif ()
+
 # Detect linux
 if (UNIX AND NOT APPLE)
     set(LINUX TRUE)
@@ -69,7 +66,6 @@ set(LIBCORK_SOURCE
         libcork/src/libcork/posix/subprocess.c
         libcork/src/libcork/pthreads/thread.c
         )
-
 add_library(cork STATIC ${LIBCORK_SOURCE})
 target_compile_definitions(cork PUBLIC -DCORK_API=CORK_LOCAL)
 
@@ -94,14 +90,12 @@ set(LIBIPSET_SOURCE
         libipset/src/libipset/set/iterator.c
         libipset/src/libipset/set/storage.c
         )
-		
 add_library(ipset STATIC ${LIBIPSET_SOURCE})
 
 set(LIBBLOOM_SOURCE
         libbloom/bloom.c
         libbloom/murmur2/MurmurHash2.c
         )
-
 add_library(bloom STATIC ${LIBBLOOM_SOURCE})
 target_link_libraries(ipset cork bloom)
 
