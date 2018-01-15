@@ -91,16 +91,14 @@ find_library(LIBMBEDTLS libmbedtls.a)
 find_library(LIBMBEDCRYPTO libmbedcrypto.a)
 find_library(LIBEV libev.a)
 
-set(LIBUDNS ${CMAKE_BINARY_DIR}/c-ares/lib/libcares.a)
-
 list(APPEND DEPS
         m
         bloom
         ${LIBEV}
-        ${LIBUDNS}
         ${LIBSODIUM}
         ${LIBMBEDTLS}
         ${LIBMBEDCRYPTO}
+		${CARES_LIBRARIES}
         )
 
 find_package (Threads)
@@ -131,7 +129,7 @@ target_link_libraries(ss-local cork ipset ${DEPS})
 
 
 # target_link_libraries(ss-tunnel cork ${DEPS})
-# target_link_libraries(ss-manager m bloom cork ${LIBEV} ${LIBUDNS})
+# target_link_libraries(ss-manager m bloom cork ${LIBEV} ${CARES_LIBRARIES})
 # target_link_libraries(ss-redir cork ipset ${DEPS})
 # target_link_libraries(shadowsocks-libev cork ipset ${DEPS})
 
