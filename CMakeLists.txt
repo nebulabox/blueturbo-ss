@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.6)
 
 set(PROJECT_NAME blueturbo-ss)
-set(PROJECT_VERSION "10.0.3")
+set(PROJECT_VERSION "10.0.5")
 project(blueturbo-ss)
 
 set (CMAKE_CXX_STANDARD 14)
@@ -20,12 +20,6 @@ endif ()
 
 message(STATUS "Running cmake version ${CMAKE_VERSION}")
 
-if (XCODE)
-	message(STATUS "Setup include directories for Xcode")
-	set(CMAKE_REQUIRED_INCLUDES /usr/include /usr/local/include)
-	include_directories(/usr/include /usr/local/include)
-endif()
-
 # Run platform tests
 include(${CMAKE_SOURCE_DIR}/cmake/configure.cmake)
 configure_file(${CMAKE_SOURCE_DIR}/cmake/config.h.cmake ${CMAKE_BINARY_DIR}/src/config.h)
@@ -37,8 +31,12 @@ include_directories(libcork/include)
 include_directories(libipset/include)
 include_directories(libbloom/murmur2)
 include_directories(libbloom)
+include_directories(libev)
 include_directories(mbedtls/include)
 include_directories(c-ares)
+include_directories(${CMAKE_BINARY_DIR}/libsodium/src/libsodium/include)
+include_directories(libsodium/src/libsodium/include)
+include_directories(libsodium/src/libsodium/include/sodium)
 include_directories(${CMAKE_BINARY_DIR}/c-ares)
 
 set(LIBCORK_SOURCE
@@ -102,6 +100,8 @@ set(LIBBLOOM_SOURCE
 add_library(bloom STATIC ${LIBBLOOM_SOURCE})
 target_link_libraries(ipset cork bloom)
 
+add_subdirectory(libsodium)
+add_subdirectory(libev)
 add_subdirectory(mbedtls)
 add_subdirectory(c-ares)
 
