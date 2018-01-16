@@ -1,6 +1,6 @@
 # redir need linux/* stuff
 if (LINUX)
-    option(WITH_SS_REDIR "Build ss-redir" ON)
+    option(WITH_SS_REDIR "Build ss-redir" OFF)
 else ()
     option(WITH_SS_REDIR "Build ss-redir" OFF)
 endif ()

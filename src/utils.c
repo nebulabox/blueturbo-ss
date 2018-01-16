@@ -264,9 +264,8 @@ void
 usage()
 {
     printf("\n");
-    printf("shadowsocks-libev %s\n\n", VERSION);
-    printf(
-        "  maintained by Max Lv <max.c.lv@gmail.com> and Linus Yang <laokongzi@gmail.com>\n\n");
+    printf("blueturbo-ss %s\n\n", VERSION);
+    
     printf("  usage:\n\n");
 #ifdef MODULE_LOCAL
     printf("    ss-local\n");

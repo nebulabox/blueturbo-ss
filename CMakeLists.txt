@@ -1,11 +1,8 @@
 cmake_minimum_required(VERSION 3.6)
-
-set(PROJECT_NAME blueturbo-ss)
-set(PROJECT_VERSION "10.0.5")
 project(blueturbo-ss)
 
 set (CMAKE_CXX_STANDARD 14)
-set(CMAKE_MACOSX_RPATH TRUE)
+set (CMAKE_MACOSX_RPATH TRUE)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
@@ -20,13 +17,6 @@ endif ()
 
 message(STATUS "Running cmake version ${CMAKE_VERSION}")
 
-# Run platform tests
-include(${CMAKE_SOURCE_DIR}/cmake/configure.cmake)
-configure_file(${CMAKE_SOURCE_DIR}/cmake/config.h.cmake ${CMAKE_BINARY_DIR}/src/config.h)
-add_definitions(-DHAVE_CONFIG_H)
-include_directories(${CMAKE_BINARY_DIR}/src)
-
-# We need libcork,libipset headers
 include_directories(libcork/include)
 include_directories(libipset/include)
 include_directories(libbloom/murmur2)
@@ -38,6 +28,20 @@ include_directories(${CMAKE_BINARY_DIR}/libsodium/src/libsodium/include)
 include_directories(libsodium/src/libsodium/include)
 include_directories(libsodium/src/libsodium/include/sodium)
 include_directories(${CMAKE_BINARY_DIR}/c-ares)
+
+add_subdirectory(libsodium)
+add_subdirectory(libev)
+add_subdirectory(mbedtls)
+add_subdirectory(c-ares)
+
+set(PROJECT_VERSION "10.1.0")
+set(PROJECT_NAME blueturbo-ss)
+set(VERSION ${PACKAGE_VERSION})
+# Run platform tests
+include(${CMAKE_SOURCE_DIR}/cmake/configure.cmake)
+configure_file(${CMAKE_SOURCE_DIR}/cmake/config.h.cmake ${CMAKE_BINARY_DIR}/src/config.h)
+add_definitions(-DHAVE_CONFIG_H)
+include_directories(${CMAKE_BINARY_DIR}/src)
 
 set(LIBCORK_SOURCE
         libcork/src/libcork/cli/commands.c
@@ -99,11 +103,6 @@ set(LIBBLOOM_SOURCE
         )
 add_library(bloom STATIC ${LIBBLOOM_SOURCE})
 target_link_libraries(ipset cork bloom)
-
-add_subdirectory(libsodium)
-add_subdirectory(libev)
-add_subdirectory(mbedtls)
-add_subdirectory(c-ares)
 
 add_subdirectory(src)
 
