@@ -87,17 +87,17 @@ set(SS_REDIR_SOURCE
         )
 
 find_library(LIBSODIUM libsodium.a)
-find_library(LIBMBEDTLS libmbedtls.a)
-find_library(LIBMBEDCRYPTO libmbedcrypto.a)
 find_library(LIBEV libev.a)
+
+message(STATUS ">>>>>>>>>>>>>>>> CARES_LIBRARIES = ${CARES_LIBRARIES}")
 
 list(APPEND DEPS
         m
         bloom
         ${LIBEV}
         ${LIBSODIUM}
-        ${LIBMBEDTLS}
-        ${LIBMBEDCRYPTO}
+        mbedcrypto  
+        mbedtls
 		${CARES_LIBRARIES}
         )
 

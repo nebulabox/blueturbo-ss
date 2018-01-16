@@ -37,6 +37,7 @@ include_directories(libcork/include)
 include_directories(libipset/include)
 include_directories(libbloom/murmur2)
 include_directories(libbloom)
+include_directories(mbedtls/include)
 include_directories(c-ares)
 include_directories(${CMAKE_BINARY_DIR}/c-ares)
 
@@ -101,6 +102,7 @@ set(LIBBLOOM_SOURCE
 add_library(bloom STATIC ${LIBBLOOM_SOURCE})
 target_link_libraries(ipset cork bloom)
 
+add_subdirectory(mbedtls)
 add_subdirectory(c-ares)
 
 add_subdirectory(src)
