@@ -1,13 +1,16 @@
 cmake_minimum_required(VERSION 3.6)
 project(blueturbo-ss)
 
-set (CMAKE_CXX_STANDARD 14)
+set (CMAKE_C_STANDARD 99)
+set (CMAKE_CXX_STANDARD 11)
 set (CMAKE_MACOSX_RPATH TRUE)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
+set (BUILD_TYPE ${CMAKE_BUILD_TYPE})
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
+    set(BUILD_TYPE Debug)
 endif ()
 
 # Detect linux
@@ -29,10 +32,14 @@ include_directories(libsodium/src/libsodium/include)
 include_directories(libsodium/src/libsodium/include/sodium)
 include_directories(${CMAKE_BINARY_DIR}/c-ares)
 
+add_compile_options( -w  )
+
 add_subdirectory(libsodium)
 add_subdirectory(libev)
 add_subdirectory(mbedtls)
 add_subdirectory(c-ares)
+
+set(CMAKE_BUILD_TYPE ${BUILD_TYPE})
 
 set(PROJECT_VERSION "10.1.0")
 set(PROJECT_NAME blueturbo-ss)
