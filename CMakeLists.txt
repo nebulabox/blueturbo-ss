@@ -1,8 +1,12 @@
 cmake_minimum_required(VERSION 3.6)
 project(blueturbo-ss)
 
-set (CMAKE_C_STANDARD 99)
-set (CMAKE_CXX_STANDARD 11)
+set(PROJECT_VERSION "10.2.0")
+set(PROJECT_NAME blueturbo-ss)
+set(VERSION ${PACKAGE_VERSION})
+
+set (CMAKE_C_STANDARD 11)
+set (CMAKE_CXX_STANDARD 14)
 set (CMAKE_MACOSX_RPATH TRUE)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
@@ -41,9 +45,6 @@ add_subdirectory(c-ares)
 
 set(CMAKE_BUILD_TYPE ${BUILD_TYPE})
 
-set(PROJECT_VERSION "10.1.0")
-set(PROJECT_NAME blueturbo-ss)
-set(VERSION ${PACKAGE_VERSION})
 # Run platform tests
 include(${CMAKE_SOURCE_DIR}/cmake/configure.cmake)
 configure_file(${CMAKE_SOURCE_DIR}/cmake/config.h.cmake ${CMAKE_BINARY_DIR}/src/config.h)
